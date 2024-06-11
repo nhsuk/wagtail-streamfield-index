@@ -51,7 +51,7 @@ class IndexEntry(models.Model):
         return get_sub_block(block, path)
 
     def __str__(self):
-        return f"<IndexEntry {self.page.title}::{self.field_name}::{self.block_path}>"
+        return f"<IndexEntry {self.page.title}::{self.field_name}::{self.block_path}>" # noqa E231
 
     class Meta:
         verbose_name_plural = "Index Entries"

@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-INSTALL_REQUIRES = ["django>=3.2", "Wagtail>=4.0"]
+INSTALL_REQUIRES = ["django>=3.2", "Wagtail>=5.2.0", " wagtail < 6.0"]
 
 TESTING_REQUIRES = ["pytest==5.2.1", "pytest-django==3.5.1", "pytest-pythonpath==0.7.3"]
 
@@ -11,7 +11,7 @@ LINTING_REQUIRES = ["black==20.8b1", "flake8==3.7.8", "flake8-black==0.1.1", "is
 
 setup(
     name="wagtail-streamfield-index",
-    version="0.0.4",
+    version="1.0.0",
     description="Indexing for Wagtail streamfields",
     author="Mike Monteith",
     author_email="<mike.monteith@nhs.net>",
