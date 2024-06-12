@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from wagtail.blocks import ListBlock, StreamBlock, StructBlock
 
 
@@ -20,6 +21,9 @@ class IndexEntry(models.Model):
     field_name = models.CharField(max_length=255)
 
     page = models.ForeignKey("wagtailcore.Page", on_delete=models.CASCADE)
+
+    def get_edit_url(self):
+        return reverse("wagtailadmin_pages:edit", args=[self.page.id])
 
     def get_bound_block(self):
         field_value = getattr(self.page.specific, self.field_name)
@@ -51,7 +55,7 @@ class IndexEntry(models.Model):
         return get_sub_block(block, path)
 
     def __str__(self):
-        return f"<IndexEntry {self.page.title}::{self.field_name}::{self.block_path}>" # noqa E231
+        return f"Streamfield index: {self.page.title} {self.field_name} {self.block_path}" # noqa E231
 
     class Meta:
         verbose_name_plural = "Index Entries"
