@@ -18,6 +18,10 @@ def index_all(page_query=None):
         index_page(page)
 
 
+def clear_index(page):
+    IndexEntry.objects.filter(page__id=page.id).delete()
+
+
 def index_page(page):
 
     # Clear the index for this specific page

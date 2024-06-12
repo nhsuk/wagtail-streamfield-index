@@ -1,14 +1,14 @@
 from django.conf import settings
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
 urlpatterns = [
-    path(r"^django-admin/", admin.site.urls),
-    path(r"^admin/", include(wagtailadmin_urls)),
-    path(r"^documents/", include(wagtaildocs_urls)),
+    re_path(r"^django-admin/", admin.site.urls),
+    re_path(r"^admin/", include(wagtailadmin_urls)),
+    re_path(r"^documents/", include(wagtaildocs_urls)),
 ]
 
 if settings.DEBUG:
