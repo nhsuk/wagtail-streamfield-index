@@ -1,8 +1,8 @@
 from django.template.defaultfilters import truncatechars
 from django.urls import reverse
 from django.utils.html import format_html
-from wagtail.contrib.modeladmin.helpers import PermissionHelper
-from wagtail.contrib.modeladmin.options import ModelAdmin
+from wagtail_modeladmin.helpers import PermissionHelper
+from wagtail_modeladmin.options import ModelAdmin
 
 from .models import IndexEntry
 
