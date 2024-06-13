@@ -1,13 +1,10 @@
 from django.urls import reverse
 from wagtail import hooks
 from wagtail.signals import page_published, page_unpublished, post_page_move
-from wagtail.admin.admin_url_finder import (
-    ModelAdminURLFinder,
-    register_admin_url_finder,
-)
+from wagtail.admin.admin_url_finder import ModelAdminURLFinder, register_admin_url_finder
 
-from .models import IndexEntry
 from .indexer import index_page
+from .models import IndexEntry
 
 
 @hooks.register("after_create_page")
