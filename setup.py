@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-INSTALL_REQUIRES = ["django>=3.2", "Wagtail>=5.2.0", " wagtail < 6.0"]
+INSTALL_REQUIRES = ["django>=3.2", "Wagtail>=5.0.0", " wagtail < 6.0"]
 
 TESTING_REQUIRES = ["pytest==5.2.1", "pytest-django==3.5.1", "pytest-pythonpath==0.7.3"]
 
