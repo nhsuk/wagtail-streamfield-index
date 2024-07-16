@@ -47,7 +47,7 @@ class IndexEntry(models.Model):
                 next_block = bound_block.value[index]
                 return get_sub_block(next_block, path_list)
             else:
-                raise Exception(f"We don't know how to iterate over block type {type(bound_block.block)}")
+                raise ValueError(f"We don't know how to iterate over block type {type(bound_block.block)}")
 
         first_index = path.pop(0)  # The first index must always be a number, since it is a streamfield
         path.pop(0)  # We can throw away the next path as it is just the block_type which we don't need
