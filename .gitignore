@@ -6,4 +6,7 @@ media/
 Pipfile
 Pipfile.lock
 venv/
+.venv/
 build/
+__pycache__
+.vscode/
