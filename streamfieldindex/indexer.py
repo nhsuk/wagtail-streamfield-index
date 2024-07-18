@@ -23,7 +23,7 @@ def index_page(page):
     # Clear the index for this specific page
     IndexEntry.objects.filter(page__id=page.id).delete()
 
-    if page.live: # we dont want to index any draft/unpublished pages
+    if page.live:  # we dont want to index any draft/unpublished pages
         for field in page._meta.fields:
             if not isinstance(field, StreamField):
                 # We are only interested in streamfields. Skip over non-streamfield fields
@@ -36,7 +36,7 @@ def index_field(field, page):
 
     field_name = field.name
     streamvalue = getattr(page, field_name)
-    for (block, path) in flatten_streamfield(streamvalue):
+    for block, path in flatten_streamfield(streamvalue):
         field_name = field_name
         block_name = path[-1]
 
