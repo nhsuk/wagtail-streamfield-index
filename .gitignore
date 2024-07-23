@@ -5,3 +5,8 @@ wagtail_streamfield_index.egg-info
 media/
 Pipfile
 Pipfile.lock
+venv/
+.venv/
+build/
+__pycache__
+.vscode/
