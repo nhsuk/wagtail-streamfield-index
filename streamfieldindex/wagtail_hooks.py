@@ -1,7 +1,7 @@
 from django.urls import reverse
 from wagtail import hooks
 from wagtail.admin.admin_url_finder import ModelAdminURLFinder, register_admin_url_finder
-from wagtail.signals import page_published, post_page_move
+from wagtail.signals import page_published, page_unpublished, post_page_move
 
 from .indexer import clear_index, index_page
 from .models import IndexEntry
@@ -22,9 +22,8 @@ def index_after_copy_page(request, page):
     index_page(page)
 
 
-@hooks.register("before_unpublish_page")
-def index_post_unpublished(request, page):
-    clear_index(page)
+def index_unpublished(sender, instance, **kwargs):
+    clear_index(instance)
 
 
 def post_publish(sender, instance, **kwargs):
@@ -48,4 +47,5 @@ class IndexEntryAdminURLFinder(ModelAdminURLFinder):
 register_admin_url_finder(IndexEntry, IndexEntryAdminURLFinder)
 
 page_published.connect(post_publish)
+page_unpublished.connect(index_unpublished)
 post_page_move.connect(index_post_page_move)
