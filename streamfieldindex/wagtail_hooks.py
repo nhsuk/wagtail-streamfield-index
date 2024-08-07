@@ -3,7 +3,7 @@ from wagtail import hooks
 from wagtail.admin.admin_url_finder import ModelAdminURLFinder, register_admin_url_finder
 from wagtail.signals import page_published, page_unpublished, post_page_move
 
-from .indexer import index_page
+from .indexer import clear_index, index_page
 from .models import IndexEntry
 
 
@@ -22,15 +22,15 @@ def index_after_copy_page(request, page):
     index_page(page)
 
 
+def index_unpublished(sender, instance, **kwargs):
+    clear_index(instance)
+
+
 def post_publish(sender, instance, **kwargs):
     index_page(instance)
 
 
 def index_post_page_move(sender, instance, **kwargs):
-    index_page(instance)
-
-
-def index_post_unpublished(sender, instance, **kwargs):
     index_page(instance)
 
 
@@ -47,5 +47,5 @@ class IndexEntryAdminURLFinder(ModelAdminURLFinder):
 register_admin_url_finder(IndexEntry, IndexEntryAdminURLFinder)
 
 page_published.connect(post_publish)
-page_unpublished.connect(index_post_unpublished)
+page_unpublished.connect(index_unpublished)
 post_page_move.connect(index_post_page_move)
