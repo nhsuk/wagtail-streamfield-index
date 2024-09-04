@@ -18,8 +18,8 @@ def index_after_edit_page(request, page):
 
 
 @hooks.register("after_copy_page")
-def index_after_copy_page(request, page):
-    index_page(page)
+def index_after_copy_page(request, page, new_page):
+    index_page(new_page)
 
 
 def index_unpublished(sender, instance, **kwargs):
