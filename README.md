@@ -33,14 +33,14 @@ Make sure modeladmin app is installed:
 ```py
 INSTALLED_APPS = [
     ...
-    "wagtail.contrib.modeladmin",
+    "wagtail_modeladmin",
     ...
 ]
 ```
 
 Register the `IndexEntryAdmin` in a wagtail_hooks.py file:
 ```py
-from wagtail.contrib.modeladmin.options import modeladmin_register
+from wagtail_modeladmin.options import modeladmin_register
 from streamfieldindex.modeladmin import IndexEntryAdmin
 
 modeladmin_register(IndexEntryAdmin)

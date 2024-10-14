@@ -27,7 +27,7 @@ INSTALLED_APPS = [
     "tests.testapp",
     "streamfieldindex",
     "wagtail.contrib.forms",
-    "wagtail.contrib.modeladmin",
+    "wagtail_modeladmin",
     "wagtail.contrib.redirects",
     "wagtail.embeds",
     "wagtail.sites",
