@@ -1,3 +1,5 @@
+import logging
+import time
 from wagtail.blocks import StreamValue, StructValue
 from wagtail.fields import StreamField
 from wagtail.models import Page
@@ -5,18 +7,27 @@ from wagtail.models import Page
 from .iterator import flatten_streamfield
 from .models import BlockTypes, IndexEntry
 
-
-def index_all(page_query=None):
+logger = logging.getLogger(__name__)
+def index_all(page_query=None, batch_size=100):
     """
     Loop through all pages and save an index entry for each streamblock we find.
     """
+    start_time = time.time()
 
     if page_query is None:
         page_query = Page.objects.live().all()
 
-    for page in page_query.specific():
-        index_page(page)
+    total_pages = page_query.count()
+    logger.info(f"Found {total_pages} pages to index")
+    for offset in range(0, total_pages, batch_size):
+        batch_pages = page_query.specific()[offset:offset + batch_size]
+        logger.debug(f"Processing batch of pages from {offset} to {offset + batch_size}")
+        # Process each page in the batch
+        for page in batch_pages:
+            index_page(page)
 
+    elapsed_time = time.time() - start_time
+    logger.info(f"Completed indexing all pages. elapsed time:{elapsed_time:.2f} seconds")
 
 def clear_index(page):
     IndexEntry.objects.filter(page__id=page.id).delete()
