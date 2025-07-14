@@ -21,7 +21,7 @@ def index_all(page_query=None, batch_size=100):
 
     total_pages = page_query.count()
     logger.info(f"Found {total_pages} pages to index")
-    
+
     for offset in range(0, total_pages, batch_size):
         end_offset = min(offset + batch_size, total_pages)
         logger.info(f"Processing batch of pages from {offset} to {end_offset}")
@@ -34,14 +34,13 @@ def index_all(page_query=None, batch_size=100):
             page_ids = [page.id for page in batch_pages]
             if page_ids:
                 IndexEntry.objects.filter(page__id__in=page_ids).delete()
-            
+
             # Collect all entries to create
             entries_to_create = []
             for page in batch_pages:
                 for field in page._meta.fields:
                     if not isinstance(field, StreamField):
                         continue
-                    
                     # Collect entries for this field
                     entries_to_create.extend(_collect_entries_for_field(field, page))
             
@@ -55,6 +54,7 @@ def index_all(page_query=None, batch_size=100):
     
     elapsed_time = time.time() - start_time
     logger.info(f"Completed indexing all pages. Elapsed time: {elapsed_time:.2f} seconds")
+
 
 def _collect_entries_for_field(field, page):
     """Helper function to collect IndexEntry objects without saving them."""

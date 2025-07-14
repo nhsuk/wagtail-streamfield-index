@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 import pytest
 
 from streamfieldindex import indexer
@@ -92,3 +94,34 @@ def test_image_block(image, image_block_page):
     indexer.index_page(image_block_page)
 
     assert IndexEntry.objects.get(block_name="image").block_value == str(image.id)
+
+
+def test_index_all_with_no_pages():
+    indexer.index_all()
+    assert IndexEntry.objects.count() == 0
+
+
+def test_index_all(
+        basic_blocks_page,
+        richtext_block_page,
+        list_block_page,
+        complex_list_block_page,
+        struct_block_page,
+        stream_block_page,
+        image_block_page
+    ):
+    indexer.index_all()
+    assert IndexEntry.objects.count() == 30
+    assert IndexEntry.objects.filter(page=basic_blocks_page).count() == 4
+    assert IndexEntry.objects.filter(page=richtext_block_page).count() == 1
+    assert IndexEntry.objects.filter(page=list_block_page).count() == 4
+    assert IndexEntry.objects.filter(page=complex_list_block_page).count() == 13
+    assert IndexEntry.objects.filter(page=struct_block_page).count() == 4
+    assert IndexEntry.objects.filter(page=stream_block_page).count() == 3
+    assert IndexEntry.objects.filter(page=image_block_page).count() == 1
+
+
+@patch("streamfieldindex.indexer._collect_entries_for_field")
+def test_batching(mock, many_pages):
+    indexer.index_all()
+    assert mock.call_count == 1000
