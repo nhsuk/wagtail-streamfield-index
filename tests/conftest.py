@@ -46,15 +46,9 @@ def image():
 
 @pytest.fixture
 def many_pages(root_page):
-    for _ in range(MANY-1):
-        create_page(
-            root_page,
-            [{"type": "heading", "value": "This is a test char block"}]
-        )
-    return create_page(
-        root_page,
-        [{"type": "heading", "value": "This is a test char block"}]
-    )
+    for _ in range(MANY - 1):
+        create_page(root_page, [{"type": "heading", "value": "This is a test char block"}])
+    return create_page(root_page, [{"type": "heading", "value": "This is a test char block"}])
 
 
 @pytest.fixture

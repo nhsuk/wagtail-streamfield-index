@@ -102,14 +102,14 @@ def test_index_all_with_no_pages():
 
 
 def test_index_all(
-        basic_blocks_page,
-        richtext_block_page,
-        list_block_page,
-        complex_list_block_page,
-        struct_block_page,
-        stream_block_page,
-        image_block_page
-    ):
+    basic_blocks_page,
+    richtext_block_page,
+    list_block_page,
+    complex_list_block_page,
+    struct_block_page,
+    stream_block_page,
+    image_block_page,
+):
     indexer.index_all()
     assert IndexEntry.objects.count() == 30
     assert IndexEntry.objects.filter(page=basic_blocks_page).count() == 4

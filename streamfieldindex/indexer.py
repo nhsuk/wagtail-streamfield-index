@@ -10,6 +10,7 @@ from .models import BlockTypes, IndexEntry
 
 logger = logging.getLogger(__name__)
 
+
 def index_all(page_query=None, batch_size=100):
     """
     Loop through all pages and save an index entry for each streamblock we find.
@@ -25,11 +26,11 @@ def index_all(page_query=None, batch_size=100):
     for offset in range(0, total_pages, batch_size):
         end_offset = min(offset + batch_size, total_pages)
         logger.info(f"Processing batch of pages from {offset} to {end_offset}")
-        
+
         with transaction.atomic():
             # Get the specific pages for this batch
             batch_pages = list(page_query.specific()[offset:end_offset])
-            
+
             # Batch delete existing entries
             page_ids = [page.id for page in batch_pages]
             if page_ids:
@@ -43,15 +44,15 @@ def index_all(page_query=None, batch_size=100):
                         continue
                     # Collect entries for this field
                     entries_to_create.extend(_collect_entries_for_field(field, page))
-            
+
             # Bulk create entries in sub-batches to avoid memory issues
             if entries_to_create:
                 for i in range(0, len(entries_to_create), 1000):
-                    IndexEntry.objects.bulk_create(entries_to_create[i:i+1000])
-        
+                    IndexEntry.objects.bulk_create(entries_to_create[i : i + 1000])
+
         elapsed_time = time.time() - start_time
         logger.debug(f"Time elapsed {elapsed_time:.2f} seconds")
-    
+
     elapsed_time = time.time() - start_time
     logger.info(f"Completed indexing all pages. Elapsed time: {elapsed_time:.2f} seconds")
 
@@ -61,7 +62,7 @@ def _collect_entries_for_field(field, page):
     entries = []
     field_name = field.name
     streamvalue = getattr(page, field_name)
-    
+
     for block, path in flatten_streamfield(streamvalue):
         block_name = path[-1]
 
@@ -89,15 +90,17 @@ def _collect_entries_for_field(field, page):
 
         block_path = "/".join(path)
 
-        entries.append(IndexEntry(
-            block_name=block_name,
-            block_type=block_type,
-            block_value=block_value,
-            block_path=block_path,
-            page=page,
-            field_name=field_name,
-        ))
-    
+        entries.append(
+            IndexEntry(
+                block_name=block_name,
+                block_type=block_type,
+                block_value=block_value,
+                block_path=block_path,
+                page=page,
+                field_name=field_name,
+            )
+        )
+
     return entries
 
 
