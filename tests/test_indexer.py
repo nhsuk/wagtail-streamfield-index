@@ -5,6 +5,8 @@ import pytest
 from streamfieldindex import indexer
 from streamfieldindex.models import IndexEntry
 
+from .conftest import MANY
+
 # Define a mark for all tests in this file
 pytestmark = pytest.mark.django_db
 
@@ -124,4 +126,4 @@ def test_index_all(
 @patch("streamfieldindex.indexer._collect_entries_for_field")
 def test_batching(mock, many_pages):
     indexer.index_all()
-    assert mock.call_count == 1000
+    assert mock.call_count == MANY
