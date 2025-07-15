@@ -11,7 +11,6 @@ from wagtail.models import Page
 
 from .testapp.models import HomePage
 
-
 MANY = 1000
 
 
