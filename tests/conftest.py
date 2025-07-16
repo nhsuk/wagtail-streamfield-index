@@ -1,5 +1,6 @@
 import io
 import json
+from uuid import uuid4
 
 import pytest
 from django.core.files.images import ImageFile
@@ -9,6 +10,8 @@ from wagtail.images import get_image_model
 from wagtail.models import Page
 
 from .testapp.models import HomePage
+
+MANY = 1000
 
 
 @pytest.fixture
@@ -22,7 +25,7 @@ def create_page(parent_page, stream_data):
     test_page = HomePage(
         body=StreamValue(stream_block, [], is_lazy=True, raw_text=json.dumps(stream_data)),
         title="Home Page",
-        slug="homepage",
+        slug=uuid4(),
     )
     parent_page.add_child(instance=test_page)
     test_page.refresh_from_db()
@@ -38,6 +41,13 @@ def image():
     wagtail_image = get_image_model()(file=file, title="My Test Image")
     wagtail_image.save()
     return wagtail_image
+
+
+@pytest.fixture
+def many_pages(root_page):
+    for _ in range(MANY - 1):
+        create_page(root_page, [{"type": "heading", "value": "This is a test char block"}])
+    return create_page(root_page, [{"type": "heading", "value": "This is a test char block"}])
 
 
 @pytest.fixture
