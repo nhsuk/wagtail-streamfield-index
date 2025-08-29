@@ -5,10 +5,6 @@ with open("README.md", "r") as fh:
 
 INSTALL_REQUIRES = ["django>=3.2", "Wagtail>=5.0.0", " wagtail < 7.0"]
 
-TESTING_REQUIRES = ["pytest==6.2.5", "pytest-django==3.5.1", "pytest-pythonpath==0.7.3", "factory-boy>=3.2"]
-
-LINTING_REQUIRES = ["black==25.1.0", "flake8==7.3.0", "flake8-black==0.3.6", "isort==6.0.1"]
-
 setup(
     name="wagtail-streamfield-index",
     version="1.0.0",
