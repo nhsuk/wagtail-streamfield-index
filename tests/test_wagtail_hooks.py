@@ -1,7 +1,7 @@
 import pytest
 from django.urls import reverse
 from wagtail.test.utils.wagtail_factories import PageFactory
-from wagtail.tests.utils import WagtailTestUtils
+from wagtail.test.utils import WagtailTestUtils
 
 import streamfieldindex
 from streamfieldindex.wagtail_hooks import IndexEntryAdminURLFinder
